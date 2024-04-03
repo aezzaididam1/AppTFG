@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "532281414685",
+    "project_id": "tfgh-90faf",
+    "storage_bucket": "tfgh-90faf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:532281414685:android:991176fb3d5f40026fa2f4",
+        "android_client_info": {
+          "package_name": "com.amine.mytfg"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuyRPI5A-RsQfDvMBx9Zq34hkiYNnfRe4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

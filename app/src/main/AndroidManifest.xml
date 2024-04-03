@@ -13,7 +13,10 @@
         android:theme="@style/Theme.MyTFG"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".checkCampos"
+            android:exported="false" />
+        <activity
+            android:name=".ConexionFireBase"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
