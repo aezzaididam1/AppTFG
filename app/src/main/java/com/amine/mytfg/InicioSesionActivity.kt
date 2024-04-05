@@ -8,13 +8,20 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
 
 class InicioSesionActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
+    private lateinit var googleSignInClient: GoogleSignInClient
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +31,16 @@ class InicioSesionActivity : AppCompatActivity() {
         auth = Firebase.auth
 
 
+        // Configuración de Google SignIn
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken("532281414685-glev98rfdeld4a87dp8njsmj018j13kc.apps.googleusercontent.com")
+            .requestEmail()
+            .build()
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
+    }
+    companion object {
+        private const val RC_SIGN_IN = 9001
     }
 
 
@@ -67,6 +84,44 @@ class InicioSesionActivity : AppCompatActivity() {
                     }
                 }
             }
+    }
+
+    // método para el inicio de sesión con Google
+    fun signInWithGoogle(view: View) {
+        val signInIntent = googleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+
+    // Método para manejar el resultado del inicio de sesión con Google
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = task.getResult(ApiException::class.java)
+                firebaseAuthWithGoogle(account.idToken!!)
+            } catch (e: ApiException) {
+                Log.w("GoogleSignIn", "Google sign in failed", e)
+            }
+        }
+    }
+
+    // Método para autenticar con Firebase usando el token de Google
+    private fun firebaseAuthWithGoogle(idToken: String) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        auth.signInWithCredential(credential).addOnCompleteListener(this) { task ->
+            if (task.isSuccessful) {
+                Log.d("FirebaseAuth", "signInWithCredential:success")
+                val intent = Intent(this, checkCampos::class.java) // Asegúrate de cambiar 'checkCampos' por tu actividad destino.
+                startActivity(intent)
+                finish()
+            } else {
+                Log.w("FirebaseAuth", "signInWithCredential:failure", task.exception)
+                Toast.makeText(this, "Autenticación fallida.", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
 

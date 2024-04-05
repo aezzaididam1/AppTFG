@@ -12,7 +12,20 @@
           "package_name": "com.amine.mytfg"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "532281414685-klpop4u0i86lt2skqh89p9sdibtegmpm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.amine.mytfg",
+            "certificate_hash": "3bf96eafda66d87e8ceb1bb8dd6024c0c1bd068d"
+          }
+        },
+        {
+          "client_id": "532281414685-glev98rfdeld4a87dp8njsmj018j13kc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAuyRPI5A-RsQfDvMBx9Zq34hkiYNnfRe4"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "532281414685-glev98rfdeld4a87dp8njsmj018j13kc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

@@ -122,7 +122,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_inicio_sesion" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_inicio_sesion"
+        android:onClick="signInWithGoogle"/>
 
     <TextView
         android:id="@+id/textViewLogin"
