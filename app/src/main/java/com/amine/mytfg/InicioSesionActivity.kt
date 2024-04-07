@@ -23,12 +23,16 @@ class InicioSesionActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
 
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.inicio_sesion_view)
         val textViewLogin = findViewById<TextView>(R.id.textViewLogin)
         textViewLogin.isClickable = false
         auth = Firebase.auth
+
+
 
 
         // Configuración de Google SignIn
@@ -65,7 +69,7 @@ class InicioSesionActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Log.d("SignIn", "signInWithEmail:success")
-                    startActivity(Intent(this, checkCampos::class.java))
+                    startActivity(Intent(this, activityPrincipal::class.java))
                     finish()
                 } else {
                     // Manera simplificada de manejar el error
@@ -114,7 +118,7 @@ class InicioSesionActivity : AppCompatActivity() {
         auth.signInWithCredential(credential).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
                 Log.d("FirebaseAuth", "signInWithCredential:success")
-                val intent = Intent(this, checkCampos::class.java) // Asegúrate de cambiar 'checkCampos' por tu actividad destino.
+                val intent = Intent(this, activityPrincipal::class.java) // Asegúrate de cambiar 'checkCampos' por tu actividad destino.
                 startActivity(intent)
                 finish()
             } else {

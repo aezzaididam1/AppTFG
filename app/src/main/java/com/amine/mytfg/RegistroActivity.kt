@@ -64,7 +64,7 @@ class RegistroActivity : AppCompatActivity() {
                     Toast.makeText(this, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show()
 
                     // Opcional: Redirigir al usuario a otra Activity tras el registro exitoso
-                    val intent = Intent(this, checkCampos::class.java)
+                    val intent = Intent(this, activityPrincipal::class.java)
                     startActivity(intent)
                     finish() // Finaliza la actividad actual
                 } else {
