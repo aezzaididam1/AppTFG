@@ -23,78 +23,80 @@
             android:layout_height="wrap_content"
             android:background="@color/dark_grey">
 
-            <!-- Título del diálogo -->
-            <TextView
-                android:id="@+id/tvHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Plantillas de hábitos"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
 
-            <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintTop_toBottomOf="@id/tvHeader"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
                     android:orientation="vertical"
-                    android:padding="16dp"
-                    android:layout_marginBottom="16dp">
+                    android:padding="22dp">
 
+
+                    <TextView
+                        android:id="@+id/idTitulo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="24dp"
+                        android:paddingBottom="16dp"
+                        android:text="Plantilla de hábitos"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:textStyle="bold" />
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
-                        app:cardCornerRadius="16dp"
-                        app:cardElevation="4dp"
-                        android:padding="16dp">
-
-                    <!-- Sección para Crear un Hábito Personalizado -->
-                    <TextView
-                        android:id="@+id/tvCrearHabitoPersonalizado"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Crear un hábito personalizado"
                         android:padding="16dp"
-                        android:background="@color/white"
-                        android:clickable="true"
-                        android:focusable="true"/>
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="4dp">
+
+                        <!-- Sección para Crear un Hábito Personalizado -->
+                        <TextView
+                            android:id="@+id/tvCrearHabitoPersonalizado"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:padding="16dp"
+                            android:text="Crear un hábito personalizado"
+                            android:contextClickable="true"
+                            />
                     </androidx.cardview.widget.CardView>
 
                     <!-- Separador -->
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@android:color/darker_gray"
-                        android:layout_marginVertical="8dp"/>
+                        android:layout_marginVertical="8dp"
+                        android:background="@android:color/darker_gray" />
 
                     <!-- Título de la sección -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
                         android:text="Más Populares"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:layout_marginBottom="8dp"/>
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
-                        app:cardCornerRadius="16dp"
-                        app:cardElevation="4dp"
                         android:padding="16dp"
-                        >
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="4dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -107,59 +109,61 @@
                                 android:id="@+id/tvDucharseConAguaFria"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Ducharse con agua fría"
-                                android:padding="16dp"
                                 android:background="?attr/selectableItemBackground"
                                 android:clickable="true"
-                                android:focusable="true"/>
+                                android:focusable="true"
+                                android:padding="16dp"
+                                android:text="Ducharse con agua fría" />
+
                             <TextView
                                 android:id="@+id/tvComerSano"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Coma una comida sana"
-                                android:padding="16dp"
                                 android:background="?attr/selectableItemBackground"
                                 android:clickable="true"
-                                android:focusable="true"/>
+                                android:focusable="true"
+                                android:padding="16dp"
+                                android:text="Coma una comida sana" />
+
                             <TextView
                                 android:id="@+id/tvHagaSuCama"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Haga su cama"
-                                android:padding="16dp"
                                 android:background="?attr/selectableItemBackground"
                                 android:clickable="true"
-                                android:focusable="true"/>
+                                android:focusable="true"
+                                android:padding="16dp"
+                                android:text="Haga su cama" />
 
                             <TextView
                                 android:id="@+id/tvSalirPasear"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Salir a pasear"
-                                android:padding="16dp"
                                 android:background="?attr/selectableItemBackground"
                                 android:clickable="true"
-                                android:focusable="true"/>
+                                android:focusable="true"
+                                android:padding="16dp"
+                                android:text="Salir a pasear" />
 
                             <TextView
                                 android:id="@+id/tvMeditar"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Meditar"
-                                android:padding="16dp"
                                 android:background="?attr/selectableItemBackground"
                                 android:clickable="true"
-                                android:focusable="true"/>
+                                android:focusable="true"
+                                android:padding="16dp"
+                                android:text="Meditar" />
 
                             <TextView
                                 android:id="@+id/tvLeerLibro"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Leer un libro"
-                                android:padding="16dp"
                                 android:background="?attr/selectableItemBackground"
                                 android:clickable="true"
-                                android:focusable="true"/>
+                                android:focusable="true"
+                                android:padding="16dp"
+                                android:text="Leer un libro" />
 
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
@@ -168,25 +172,24 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@android:color/darker_gray"
-                        android:layout_marginVertical="8dp"/>
+                        android:layout_marginVertical="8dp"
+                        android:background="@android:color/darker_gray" />
                     <!-- Título de la sección -->
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
                         android:text="BIENESTAR MENTAL"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:layout_marginBottom="8dp"/>
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
-                        app:cardCornerRadius="16dp"
-                        app:cardElevation="4dp"
                         android:padding="16dp"
-                        >
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="4dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -199,59 +202,61 @@
                                 android:id="@+id/tvDucharseConAguaFria1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Ducharse con agua fría"
-                                android:padding="16dp"
                                 android:background="?attr/selectableItemBackground"
                                 android:clickable="true"
-                                android:focusable="true"/>
+                                android:focusable="true"
+                                android:padding="16dp"
+                                android:text="Ducharse con agua fría" />
+
                             <TextView
                                 android:id="@+id/tvComerSano2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Coma una comida sana"
-                                android:padding="16dp"
                                 android:background="?attr/selectableItemBackground"
                                 android:clickable="true"
-                                android:focusable="true"/>
+                                android:focusable="true"
+                                android:padding="16dp"
+                                android:text="Coma una comida sana" />
+
                             <TextView
                                 android:id="@+id/tvHagaSuCama3"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Haga su cama"
-                                android:padding="16dp"
                                 android:background="?attr/selectableItemBackground"
                                 android:clickable="true"
-                                android:focusable="true"/>
+                                android:focusable="true"
+                                android:padding="16dp"
+                                android:text="Haga su cama" />
 
                             <TextView
                                 android:id="@+id/tvSalirPasear4"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Salir a pasear"
-                                android:padding="16dp"
                                 android:background="?attr/selectableItemBackground"
                                 android:clickable="true"
-                                android:focusable="true"/>
+                                android:focusable="true"
+                                android:padding="16dp"
+                                android:text="Salir a pasear" />
 
                             <TextView
                                 android:id="@+id/tvMeditar5"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Meditar"
-                                android:padding="16dp"
                                 android:background="?attr/selectableItemBackground"
                                 android:clickable="true"
-                                android:focusable="true"/>
+                                android:focusable="true"
+                                android:padding="16dp"
+                                android:text="Meditar" />
 
                             <TextView
                                 android:id="@+id/tvLeerLibro6"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Leer un libro"
-                                android:padding="16dp"
                                 android:background="?attr/selectableItemBackground"
                                 android:clickable="true"
-                                android:focusable="true"/>
+                                android:focusable="true"
+                                android:padding="16dp"
+                                android:text="Leer un libro" />
 
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>

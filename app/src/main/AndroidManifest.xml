@@ -13,10 +13,14 @@
         android:theme="@style/Theme.MyTFG"
         tools:targetApi="31">
         <activity
+            android:name=".ConfigHabitoActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyTFG" />
+        <activity
             android:name=".CrearTareaActivity"
             android:exported="false" />
         <activity
-            android:name=".RegistroActivity"
+            android:name=".InicioSesion.RegistroActivity"
             android:exported="false"
             android:label="@string/title_activity_registro"
             android:theme="@style/Theme.MyTFG" />
@@ -24,7 +28,7 @@
             android:name=".activityPrincipal"
             android:exported="false" />
         <activity
-            android:name=".InicioSesionActivity"
+            android:name=".InicioSesion.InicioSesionActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="@color/black">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/ccTrip"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="0dp"
+        android:background="?attr/colorOnPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical"
+                    android:padding="22dp"
+                    android:background="@color/dark_grey"
+                    >
+
+
+
+
+
+                    <TextView
+                        android:id="@+id/idTitulo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="24dp"
+                        android:paddingBottom="16dp"
+                        android:text="Crear un hábito personalizado"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:textStyle="bold"
+                        android:clickable="true"/>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:padding="16dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="4dp">
+
+                        <!-- Sección para Crear un Hábito Personalizado -->
+                        <EditText
+                            android:id="@+id/etNombreHabito"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Nombre del hábito"
+                            android:inputType="text"
+                            android:padding="16dp" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- Separador -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="8dp"
+                        android:background="@android:color/darker_gray" />
+
+                    <!-- Título de la sección -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="Más Populares"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <ImageButton
+                            android:id="@+id/btnDataPickerInicio"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="@string/app_name"
+                            android:padding="16dp"
+                            android:src="@drawable/ig_calendar" />
+
+                        <EditText
+                            android:id="@+id/tvOpenDatePicker"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Seleccionar fecha"
+                            android:padding="16dp"
+                            android:focusable="false"
+                            android:background="@android:color/transparent"
+                            android:clickable="true"
+                            android:cursorVisible="false"
+                            android:gravity="center"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="8dp"
+                        android:background="@android:color/darker_gray" />
+                    <!-- Título de la sección -->
+
+
+
+
+                </LinearLayout>
+
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
