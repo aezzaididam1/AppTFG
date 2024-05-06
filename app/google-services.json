@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "532281414685",
+    "project_id": "tfgh-90faf",
+    "storage_bucket": "tfgh-90faf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:532281414685:android:991176fb3d5f40026fa2f4",
+        "android_client_info": {
+          "package_name": "com.amine.mytfg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "532281414685-klpop4u0i86lt2skqh89p9sdibtegmpm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.amine.mytfg",
+            "certificate_hash": "3bf96eafda66d87e8ceb1bb8dd6024c0c1bd068d"
+          }
+        },
+        {
+          "client_id": "532281414685-s1e95c0fcdb9v36fp239hvri6q867hn8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.amine.mytfg",
+            "certificate_hash": "8e7ff7cf4ebbbd687900c253e056010dc340af6b"
+          }
+        },
+        {
+          "client_id": "532281414685-glev98rfdeld4a87dp8njsmj018j13kc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuyRPI5A-RsQfDvMBx9Zq34hkiYNnfRe4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "532281414685-glev98rfdeld4a87dp8njsmj018j13kc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

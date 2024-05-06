@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/action_item1"
-        android:icon="@drawable/ic_lock"
-        android:title="Item 1" />
+        android:id="@+id/inicio_item"
+        android:icon="@drawable/i_task"
+        android:title="Tareas" />
     <item
-        android:id="@+id/action_item2"
-        android:icon="@drawable/ic_lock"
-        android:title="Item 2" />
-    <!-- No incluyas el item del medio (+), ya que eso lo manejará el FloatingActionButton -->
+        android:id="@+id/desafios_item"
+        android:icon="@drawable/ig_challenge"
+        android:title="Desafios" />
     <item
-        android:id="@+id/action_item3"
-        android:icon="@drawable/ic_lock"
-        android:title="Item 3" />
+        android:id="@+id/productividad_item"
+        android:icon="@drawable/ic_estadistica"
+        android:title="Productividad" />
     <item
-        android:id="@+id/action_item4"
-        android:icon="@drawable/ic_lock"
-        android:title="Item 4" />
+        android:id="@+id/ajustes_item"
+        android:icon="@drawable/ic_app_settings_alt_24"
+        android:title="Ajustes" />
 </menu>

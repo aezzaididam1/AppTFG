@@ -1,40 +1,53 @@
-package com.amine.mytfg
-
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.amine.mytfg.CustomAdapter
+import com.amine.mytfg.databases.Tarea
 import com.amine.mytfg.databinding.FragmentFirstBinding
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
 class FirstFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
+        cargarHabitos()
+    }
 
-        binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }
+    private fun setupRecyclerView() {
+        // Inicializa el RecyclerView con una MutableList vacía
+        binding.recycledView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recycledView.adapter = CustomAdapter(mutableListOf(), onItemChecked = { position, isChecked ->
+            handleTaskCompletion(position, isChecked)
+        })
+    }
+
+
+    private fun cargarHabitos() {
+        val repo = HabitoRepository(requireContext())
+        repo.obtenerHabitos(
+            onSuccess = { habitos ->
+                (binding.recycledView.adapter as CustomAdapter).updateData(habitos)
+            },
+            onFailure = { exception ->
+                Toast.makeText(requireContext(), "Error al cargar los hábitos: ${exception.localizedMessage}", Toast.LENGTH_LONG).show()
+            }
+        )
+    }
+
+    private fun handleTaskCompletion(position: Int, isChecked: Boolean) {
+        // Implementa la lógica para actualizar el estado de la tarea como completada
     }
 
     override fun onDestroyView() {

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     tools:background="@color/black">
 
     <com.google.android.material.card.MaterialCardView
@@ -18,116 +18,166 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical"
+            android:padding="22dp"
+            android:background="@color/dark_grey">
 
+            <EditText
+                android:id="@+id/etNombreHabito"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nombre del hábito"
+                android:inputType="text"
+                android:padding="16dp" />
 
+            <!-- Fecha de inicio -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fecha de inicio"
+                android:padding="8dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <ImageButton
+                    android:id="@+id/btnDataPickerInicio"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:orientation="vertical"
-                    android:padding="22dp"
-                    android:background="@color/dark_grey"
-                    >
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ig_calendar"
+                    android:padding="8dp" />
 
+                <EditText
+                    android:id="@+id/tvOpenDatePicker"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Seleccione fecha"
+                    android:padding="8dp"
+                    android:focusable="false"
+                    android:background="@android:color/transparent"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:gravity="center"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+            </LinearLayout>
 
+            <!-- Switch para decidir si agregar fecha final -->
+            <Switch
+                android:id="@+id/switchFechaFinal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Definir fecha final"
+                android:padding="8dp"
+                android:checked="false" />
 
+            <!-- Fecha de final opcional -->
+            <LinearLayout
+                android:id="@+id/llFechaFinal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:visibility="gone">
 
+                <ImageButton
+                    android:id="@+id/btnDataPickerFinal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ig_calendar"
+                    android:padding="8dp" />
 
-                    <TextView
-                        android:id="@+id/idTitulo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:paddingTop="24dp"
-                        android:paddingBottom="16dp"
-                        android:text="Crear un hábito personalizado"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                        android:textStyle="bold"
-                        android:clickable="true"/>
+                <EditText
+                    android:id="@+id/tvCloseDatePicker"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Seleccione fecha"
+                    android:padding="8dp"
+                    android:focusable="false"
+                    android:background="@android:color/transparent"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:gravity="center"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+            </LinearLayout>
 
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:padding="16dp"
-                        app:cardCornerRadius="16dp"
-                        app:cardElevation="4dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Días activos"
+                android:padding="8dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
-                        <!-- Sección para Crear un Hábito Personalizado -->
-                        <EditText
-                            android:id="@+id/etNombreHabito"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Nombre del hábito"
-                            android:inputType="text"
-                            android:padding="16dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp">
 
-                    </androidx.cardview.widget.CardView>
+                <CheckBox
+                    android:id="@+id/cbMonday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lun" />
 
-                    <!-- Separador -->
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginVertical="8dp"
-                        android:background="@android:color/darker_gray" />
+                <CheckBox
+                    android:id="@+id/cbTuesday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mar" />
 
-                    <!-- Título de la sección -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:text="Más Populares"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                <CheckBox
+                    android:id="@+id/cbWednesday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mier" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
+                <CheckBox
+                    android:id="@+id/cbThursday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Juev" />
 
-                        <ImageButton
-                            android:id="@+id/btnDataPickerInicio"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:contentDescription="@string/app_name"
-                            android:padding="16dp"
-                            android:src="@drawable/ig_calendar" />
+                <CheckBox
+                    android:id="@+id/cbFriday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vie" />
 
-                        <EditText
-                            android:id="@+id/tvOpenDatePicker"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:hint="Seleccionar fecha"
-                            android:padding="16dp"
-                            android:focusable="false"
-                            android:background="@android:color/transparent"
-                            android:clickable="true"
-                            android:cursorVisible="false"
-                            android:gravity="center"
-                            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+                <CheckBox
+                    android:id="@+id/cbSaturday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sab" />
 
+                <CheckBox
+                    android:id="@+id/cbSunday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dom" />
+            </LinearLayout>
 
-                    </LinearLayout>
+            <Button
+                android:id="@+id/btnSaveHabit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Guardar Hábito"
+                android:backgroundTint="@color/design_default_color_primary"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginVertical="8dp"
-                        android:background="@android:color/darker_gray" />
-                    <!-- Título de la sección -->
-
-
-
-
-                </LinearLayout>
-
-
-
+        </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

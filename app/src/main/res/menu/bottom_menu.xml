@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/action_item1"
+        android:id="@+id/inicio_item"
         android:icon="@drawable/ic_lock"
         android:title="Item 1" />
     <item
-        android:id="@+id/action_item2"
+        android:id="@+id/desafios_item"
         android:icon="@drawable/ic_lock"
         android:title="Item 2" />
     <item
-        android:id="@+id/action_item3"
+        android:id="@+id/productividad_item"
         android:icon="@drawable/ic_lock"
         android:title="Item 3" />
     <item
-        android:id="@+id/action_item4"
+        android:id="@+id/ajustes_item"
         android:icon="@drawable/ic_lock"
         android:title="Item 4" />
 </menu>

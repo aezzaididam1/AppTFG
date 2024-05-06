@@ -1,28 +1,33 @@
 package com.amine.mytfg
 
+import FirstFragment
+import HabitoRepository
 import android.app.DatePickerDialog
 import android.app.Dialog
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.DatePicker
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.LinearLayout
+import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.textfield.TextInputEditText
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
 class activityPrincipal : AppCompatActivity() {
     private lateinit var tvOpenDAta: TextView
+    private lateinit var textoFechaFin: TextView
     private lateinit var btnFechaInicio: ImageButton
     private val dateFormatter = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
 
@@ -35,10 +40,30 @@ class activityPrincipal : AppCompatActivity() {
         fabAddTask.setOnClickListener {
             showAddTaskDialog()
         }
+        // Configuración del BottomNavigationView utilizando el nuevo listener
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.inicio_item -> replaceFragment(FirstFragment())
+                R.id.desafios_item -> replaceFragment(SecondFragment())
+                // Asegúrate de añadir los otros fragmentos si tienes más ítems
+            }
+            true  // Indica que el evento de selección fue manejado
+        }
 
-
+        // Configura el fragmento inicial (opcional)
+        if (savedInstanceState == null) {
+            bottomNavigationView.selectedItemId = R.id.inicio_item
+        }
 
     }
+
+    private fun replaceFragment(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_container, fragment)  // Asegúrate de que el ID del contenedor está correctamente definido en tu layout
+        transaction.commit()
+    }
+
     private fun showAddTaskDialog() {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.activity_crear_tarea)
@@ -56,8 +81,6 @@ class activityPrincipal : AppCompatActivity() {
             val maxWidth = (width * 0.87).toInt()
             val maxHeight = (height * 0.65).toInt() // Ajusta este porcentaje para cambiar la altura
 
-
-
             // Ajusta el tamaño según el contenido, pero no permite que sea más ancho que maxWidth
             window.setLayout(maxWidth, maxHeight)
         }
@@ -70,85 +93,135 @@ class activityPrincipal : AppCompatActivity() {
 
     private fun setupDialogButtons(dialog: Dialog) {
         dialog.findViewById<TextView>(R.id.tvCrearHabitoPersonalizado)?.setOnClickListener {
-            // Aquí manejas lo que ocurre cuando el usuario hace clic en crear habito personalizado
-            Toast.makeText(this, "Hábito creado con éxito", Toast.LENGTH_SHORT).show()
-            dialog.dismiss() // Cierra el diálogo
+            showCreateHabitDialog()
         }
 
         dialog.findViewById<TextView>(R.id.tvDucharseConAguaFria).setOnClickListener {
-            showCreateHabitDialog()
-            //dialog.dismiss()
+            showCreateHabitDialog("Ducharse con agua fría")
         }
 
+        dialog.findViewById<TextView>(R.id.tvComerSano).setOnClickListener {
+            showCreateHabitDialog("Comer sano")
+        }
+
+        dialog.findViewById<TextView>(R.id.tvHagaSuCama).setOnClickListener {
+            showCreateHabitDialog("Hacer la cama")
+        }
+
+        dialog.findViewById<TextView>(R.id.tvSalirPasear).setOnClickListener {
+            showCreateHabitDialog("Salir a pasear")
+        }
 
     }
+
 
     private fun setupConfigHabitButtons(dialog: Dialog) {
+        // Configuración de la fecha de inicio
         tvOpenDAta = dialog.findViewById<TextView>(R.id.tvOpenDatePicker)
-
         btnFechaInicio = dialog.findViewById<ImageButton>(R.id.btnDataPickerInicio)
         btnFechaInicio.setOnClickListener {
-            openDatePickerDialog()
-
+            openDatePickerDialog { selectedDate ->
+                tvOpenDAta.text = dateFormatter.format(selectedDate.time)
+            }
         }
 
+        // Configuración de la fecha final
+        textoFechaFin = dialog.findViewById<TextView>(R.id.tvCloseDatePicker)
+        val tvCloseDAta = dialog.findViewById<TextView>(R.id.tvCloseDatePicker)
+        val btnFechaFinal = dialog.findViewById<ImageButton>(R.id.btnDataPickerFinal)
+        btnFechaFinal.setOnClickListener {
+            openDatePickerDialog { selectedDate ->
+                tvCloseDAta.text = dateFormatter.format(selectedDate.time)
+            }
+        }
+
+        // Manejo del switch para mostrar u ocultar la fecha final
+        val switchFechaFinal = dialog.findViewById<Switch>(R.id.switchFechaFinal)
+        val llFechaFinal = dialog.findViewById<LinearLayout>(R.id.llFechaFinal)
+
+        switchFechaFinal.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                llFechaFinal.visibility = View.VISIBLE
+            } else {
+                llFechaFinal.visibility = View.GONE
+            }
+        }
     }
 
 
-    fun showCreateHabitDialog() {
+
+
+    fun showCreateHabitDialog(habitName: String? = null) {
         val createHabitDialog = Dialog(this)
         createHabitDialog.setContentView(R.layout.activity_config_habito1)
         createHabitDialog.window?.let { window ->
-            window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT)) // Fondo transparente
-
+            window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             val displayMetrics = resources.displayMetrics
             val width = displayMetrics.widthPixels
             val height = displayMetrics.heightPixels
 
-            val maxWidth = (width * 0.87).toInt() // Establece el ancho a un porcentaje específico
-            val maxHeight = (height * 0.65).toInt() // Ajusta este porcentaje para cambiar la altura
-
-            // Ajusta el tamaño según el contenido, pero no permite que sea más ancho que maxWidth
+            val maxWidth = (width * 0.87).toInt()
+            val maxHeight = (height * 0.65).toInt()
             window.setLayout(maxWidth, ViewGroup.LayoutParams.WRAP_CONTENT)
         }
 
-        createHabitDialog.show()
+        val etNombreHabito = createHabitDialog.findViewById<EditText>(R.id.etNombreHabito)
+        etNombreHabito.setText(habitName)
+
         setupConfigHabitButtons(createHabitDialog)
 
+        createHabitDialog.findViewById<Button>(R.id.btnSaveHabit).setOnClickListener {
+            val name = etNombreHabito.text.toString().trim()
+            if (name.isEmpty()) {
+                Toast.makeText(this, "Por favor, ingrese un nombre para el hábito.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
+            // Recolectar información de los CheckBoxes
+            val daysOfWeek = listOf(
+                createHabitDialog.findViewById<CheckBox>(R.id.cbMonday).isChecked,
+                createHabitDialog.findViewById<CheckBox>(R.id.cbTuesday).isChecked,
+                createHabitDialog.findViewById<CheckBox>(R.id.cbWednesday).isChecked,
+                createHabitDialog.findViewById<CheckBox>(R.id.cbThursday).isChecked,
+                createHabitDialog.findViewById<CheckBox>(R.id.cbFriday).isChecked,
+                createHabitDialog.findViewById<CheckBox>(R.id.cbSaturday).isChecked,
+                createHabitDialog.findViewById<CheckBox>(R.id.cbSunday).isChecked
+            )
+
+            val selectedDateInicio = tvOpenDAta.text.toString()
+            val selectedDateFin = textoFechaFin.text.toString()
+
+            val habitoRepository = HabitoRepository(this)
+            habitoRepository.guardarHabito(name, selectedDateInicio, selectedDateFin, daysOfWeek, {
+                Toast.makeText(this@activityPrincipal, "Hábito guardado con éxito", Toast.LENGTH_SHORT).show()
+            }, { e ->
+                Toast.makeText(this@activityPrincipal, "Error al guardar el hábito: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+            })
+
+            createHabitDialog.dismiss()
+        }
+
+        createHabitDialog.show()
     }
 
-    private fun openDatePickerDialog() {
 
 
-        // Obtener la fecha actual para preseleccionarla en el DatePicker
+    fun openDatePickerDialog(onDateSelected: (Calendar) -> Unit) {
         val calendar = Calendar.getInstance()
-
         val datePickerDialog = DatePickerDialog(
             this,
-
-            DatePickerDialog.OnDateSetListener { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
+            { _, year, month, dayOfMonth ->
                 val selectedDate = Calendar.getInstance()
                 selectedDate.set(year, month, dayOfMonth)
-                Log.i("pruebas", "openDatePickerDialog: funciona ")
-                // Formatear la fecha seleccionada al formato deseado
-                val formattedDate = this.dateFormatter.format(selectedDate.time)
-                Log.i("prb", "formattedDate: " + formattedDate)
-                // Establecer la fecha formateada en el EditText
-                tvOpenDAta.setText(formattedDate)
-
-                //Modificamos selectedDate en la activity (variable global)
-                //MainActivity().selectedDate = selectedDate.time
-                //Log.i("PATATA", "openDatePickerDialog- SELECTED DATE: " +  MainActivity().selectedDate) //Sun Apr 21 11:21:30 GMT+02:00 2024
+                onDateSelected(selectedDate)
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
         )
-
-        // Mostrar el DatePickerDialog
         datePickerDialog.show()
     }
+
 
 
 
