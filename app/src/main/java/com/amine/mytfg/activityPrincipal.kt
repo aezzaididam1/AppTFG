@@ -1,12 +1,17 @@
 package com.amine.mytfg
 
+import EstadisticaFragment
 import FirstFragment
 import HabitoRepository
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -21,8 +26,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 class activityPrincipal : AppCompatActivity() {
@@ -35,6 +42,11 @@ class activityPrincipal : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_principal)
+        // Verificar y solicitar permiso para mostrar overlay
+        if (!Settings.canDrawOverlays(this)) {
+            val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName"))
+            startActivityForResult(intent, REQUEST_CODE_OVERLAY_PERMISSION)
+        }
 
         val fabAddTask: FloatingActionButton = findViewById(R.id.fab_add_task)
         fabAddTask.setOnClickListener {
@@ -46,6 +58,10 @@ class activityPrincipal : AppCompatActivity() {
             when (item.itemId) {
                 R.id.inicio_item -> replaceFragment(FirstFragment())
                 R.id.desafios_item -> replaceFragment(SecondFragment())
+                R.id.productividad_item -> replaceFragment(EstadisticaFragment())
+                R.id.ajustes_item -> replaceFragment(SettingsFragment())
+
+
                 // Asegúrate de añadir los otros fragmentos si tienes más ítems
             }
             true  // Indica que el evento de selección fue manejado
@@ -58,6 +74,9 @@ class activityPrincipal : AppCompatActivity() {
 
     }
 
+    companion object {
+        private const val REQUEST_CODE_OVERLAY_PERMISSION = 101
+    }
     private fun replaceFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, fragment)  // Asegúrate de que el ID del contenedor está correctamente definido en tu layout
@@ -155,19 +174,17 @@ class activityPrincipal : AppCompatActivity() {
         val createHabitDialog = Dialog(this)
         createHabitDialog.setContentView(R.layout.activity_config_habito1)
         createHabitDialog.window?.let { window ->
-            window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT)) // Fondo transparente
             val displayMetrics = resources.displayMetrics
             val width = displayMetrics.widthPixels
             val height = displayMetrics.heightPixels
-
             val maxWidth = (width * 0.87).toInt()
             val maxHeight = (height * 0.65).toInt()
-            window.setLayout(maxWidth, ViewGroup.LayoutParams.WRAP_CONTENT)
+            window.setLayout(maxWidth, ViewGroup.LayoutParams.WRAP_CONTENT) // Ajuste del tamaño del diálogo
         }
 
         val etNombreHabito = createHabitDialog.findViewById<EditText>(R.id.etNombreHabito)
         etNombreHabito.setText(habitName)
-
         setupConfigHabitButtons(createHabitDialog)
 
         createHabitDialog.findViewById<Button>(R.id.btnSaveHabit).setOnClickListener {
@@ -177,50 +194,53 @@ class activityPrincipal : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Recolectar información de los CheckBoxes
             val daysOfWeek = listOf(
+                createHabitDialog.findViewById<CheckBox>(R.id.cbSunday).isChecked,
                 createHabitDialog.findViewById<CheckBox>(R.id.cbMonday).isChecked,
                 createHabitDialog.findViewById<CheckBox>(R.id.cbTuesday).isChecked,
                 createHabitDialog.findViewById<CheckBox>(R.id.cbWednesday).isChecked,
                 createHabitDialog.findViewById<CheckBox>(R.id.cbThursday).isChecked,
                 createHabitDialog.findViewById<CheckBox>(R.id.cbFriday).isChecked,
-                createHabitDialog.findViewById<CheckBox>(R.id.cbSaturday).isChecked,
-                createHabitDialog.findViewById<CheckBox>(R.id.cbSunday).isChecked
+                createHabitDialog.findViewById<CheckBox>(R.id.cbSaturday).isChecked
+
             )
 
-            val selectedDateInicio = tvOpenDAta.text.toString()
-            val selectedDateFin = textoFechaFin.text.toString()
+            val formatter = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
+            val selectedDateInicio = formatter.parseOrNull(tvOpenDAta.text.toString())
+            val selectedDateFin = formatter.parseOrNull(textoFechaFin.text.toString())
 
-            val habitoRepository = HabitoRepository(this)
-            habitoRepository.guardarHabito(name, selectedDateInicio, selectedDateFin, daysOfWeek, {
-                Toast.makeText(this@activityPrincipal, "Hábito guardado con éxito", Toast.LENGTH_SHORT).show()
-            }, { e ->
-                Toast.makeText(this@activityPrincipal, "Error al guardar el hábito: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
-            })
-
+            if (selectedDateInicio != null && (selectedDateFin == null || !selectedDateInicio.after(selectedDateFin))) {
+                HabitoRepository(this).guardarHabito(name, selectedDateInicio, selectedDateFin, daysOfWeek, {
+                    Toast.makeText(this@activityPrincipal, "Hábito guardado con éxito", Toast.LENGTH_SHORT).show()
+                }, { e ->
+                    Toast.makeText(this@activityPrincipal, "Error al guardar el hábito: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+                })
+            } else {
+                Toast.makeText(this, "La fecha de inicio no puede ser posterior a la fecha final.", Toast.LENGTH_LONG).show()
+            }
             createHabitDialog.dismiss()
         }
-
         createHabitDialog.show()
     }
 
-
-
     fun openDatePickerDialog(onDateSelected: (Calendar) -> Unit) {
         val calendar = Calendar.getInstance()
-        val datePickerDialog = DatePickerDialog(
-            this,
-            { _, year, month, dayOfMonth ->
-                val selectedDate = Calendar.getInstance()
-                selectedDate.set(year, month, dayOfMonth)
-                onDateSelected(selectedDate)
-            },
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
-        )
-        datePickerDialog.show()
+        DatePickerDialog(this, { _, year, monthOfYear, dayOfMonth ->
+            val selectedDate = Calendar.getInstance()
+            selectedDate.set(year, monthOfYear, dayOfMonth, 0, 0, 0)
+            selectedDate.set(Calendar.MILLISECOND, 0)
+            onDateSelected(selectedDate)
+            Log.d("DatePicker", "Fecha seleccionada: ${selectedDate.time}")
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
     }
+
+    // Helper function to safely parse dates
+    fun SimpleDateFormat.parseOrNull(text: String): Date? = try {
+        parse(text)
+    } catch (e: ParseException) {
+        null
+    }
+
 
 
 

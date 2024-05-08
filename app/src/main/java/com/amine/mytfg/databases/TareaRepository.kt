@@ -1,25 +1,31 @@
+
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import com.amine.mytfg.databases.Tarea
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
+import java.util.Calendar
+import java.util.Date
 
 class HabitoRepository(val context: Context) {
     private val db = FirebaseFirestore.getInstance()
 
-    fun guardarHabito(nombreHabito: String, fechaInicial: String, fechaFinal: String, diasActivos: List<Boolean>,
-                      onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+    fun guardarHabito(nombreHabito: String, fechaInicial: Date, fechaFinal: Date?, diasActivos: List<Boolean>,
+                      onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
         val habito = hashMapOf(
             "nombre" to nombreHabito,
             "fechaInicial" to fechaInicial,
             "fechaFinal" to fechaFinal,
-            "diasActivos" to diasActivos
+            "diasActivos" to diasActivos,
+            "isCompleted" to false  // Asumiendo que agregas este campo por defecto
         )
 
         db.collection("habitos")
             .add(habito)
             .addOnSuccessListener { documentReference ->
                 Toast.makeText(context, "Hábito guardado con éxito con ID: ${documentReference.id}", Toast.LENGTH_SHORT).show()
-                onSuccess()
+                onSuccess(documentReference.id)  // Devuelve el ID del nuevo documento creado
             }
             .addOnFailureListener { e ->
                 Toast.makeText(context, "Error al guardar el hábito: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
@@ -27,14 +33,65 @@ class HabitoRepository(val context: Context) {
             }
     }
 
-    fun obtenerHabitos(onSuccess: (List<Tarea>) -> Unit, onFailure: (Exception) -> Unit) {
+
+    fun obtenerHabitosPorFecha(date: Date, onSuccess: (List<Tarea>) -> Unit, onFailure: (Exception) -> Unit) {
         db.collection("habitos").get()
             .addOnSuccessListener { result ->
-                val habitos = result.map { doc -> doc.toObject(Tarea::class.java) }
-                onSuccess(habitos)
+                val habitosFiltrados = filtrarHabitos(result, date)
+                onSuccess(habitosFiltrados)
             }
             .addOnFailureListener { exception ->
+                Log.e("FirestoreError", "Failed to load tasks: ", exception)
                 onFailure(exception)
             }
     }
+
+    fun filtrarHabitos(querySnapshot: QuerySnapshot, date: Date): List<Tarea> {
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1  // Asumiendo que 0 es Domingo
+
+        return querySnapshot.documents.mapNotNull { doc ->
+            doc.toObject(Tarea::class.java)?.apply {
+                this.id = doc.id  // Almacena el ID del documento en el objeto Tarea
+            }?.takeIf { tarea ->
+                val isActiveToday = tarea.diasActivos.size > dayOfWeek && tarea.diasActivos[dayOfWeek]
+                val tareaFechaInicial = tarea.fechaInicial ?: Date(Long.MIN_VALUE)
+                val tareaFechaFinal = tarea.fechaFinal ?: Date(Long.MAX_VALUE)
+                isActiveToday && !tareaFechaInicial.after(date) && !tareaFechaFinal.before(date)
+            }
+        }
+    }
+
+
+    fun updateHabitoCompletion(habitoId: String, isCompleted: Boolean, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        db.collection("habitos")
+            .document(habitoId)
+            .update("isCompleted", isCompleted)
+            .addOnSuccessListener {
+                Log.d("HabitoRepository", "Hábito actualizado con éxito.")
+                onSuccess()
+            }
+            .addOnFailureListener { e ->
+                Log.e("HabitoRepository", "Error al actualizar el hábito.", e)
+                onFailure(e)
+            }
+    }
+    fun contarHabitosCompletados(onResult: (completados: Int, noCompletados: Int) -> Unit) {
+        db.collection("habitos")
+            .get()
+            .addOnSuccessListener { result ->
+                val total = result.size()
+                val completados = result.documents.count { doc ->
+                    doc.getBoolean("isCompleted") == true
+                }
+                onResult(completados, total - completados)
+            }
+            .addOnFailureListener { exception ->
+                Log.e("FirestoreError", "Error al cargar datos de hábitos", exception)
+            }
+    }
+
+
+
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:background="@color/black">
+    android:background="@android:color/transparent">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/ccTrip"
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="24dp"
         app:cardElevation="0dp"
-        android:background="?attr/colorOnPrimary"
+        android:background="@color/design_default_color_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:orientation="vertical"
-            android:padding="22dp"
+            android:padding="16dp"
             android:background="@color/dark_grey">
 
             <EditText
@@ -32,9 +32,8 @@
                 android:layout_height="wrap_content"
                 android:hint="Nombre del hábito"
                 android:inputType="text"
-                android:padding="16dp" />
+                android:padding="12dp" />
 
-            <!-- Fecha de inicio -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,7 +70,6 @@
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
             </LinearLayout>
 
-            <!-- Switch para decidir si agregar fecha final -->
             <Switch
                 android:id="@+id/switchFechaFinal"
                 android:layout_width="match_parent"
@@ -80,7 +78,6 @@
                 android:padding="8dp"
                 android:checked="false" />
 
-            <!-- Fecha de final opcional -->
             <LinearLayout
                 android:id="@+id/llFechaFinal"
                 android:layout_width="match_parent"
@@ -119,61 +116,69 @@
                 android:padding="8dp"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
-            <LinearLayout
+            <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
+                android:columnCount="3"
+                android:rowCount="3"
+                android:padding="4dp">
 
                 <CheckBox
                     android:id="@+id/cbMonday"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Lun" />
+                    android:text="Lun"
+                    android:layout_columnWeight="1" />
 
                 <CheckBox
                     android:id="@+id/cbTuesday"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Mar" />
+                    android:text="Mar"
+                    android:layout_columnWeight="1" />
 
                 <CheckBox
                     android:id="@+id/cbWednesday"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Mier" />
+                    android:text="Mier"
+                    android:layout_columnWeight="1" />
 
                 <CheckBox
                     android:id="@+id/cbThursday"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Juev" />
+                    android:text="Juev"
+                    android:layout_columnWeight="1" />
 
                 <CheckBox
                     android:id="@+id/cbFriday"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Vie" />
+                    android:text="Vie"
+                    android:layout_columnWeight="1" />
 
                 <CheckBox
                     android:id="@+id/cbSaturday"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Sab" />
+                    android:text="Sab"
+                    android:layout_columnWeight="1" />
 
                 <CheckBox
                     android:id="@+id/cbSunday"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Dom" />
-            </LinearLayout>
+                    android:text="Dom"
+                    android:layout_columnWeight="1" />
+            </GridLayout>
 
             <Button
                 android:id="@+id/btnSaveHabit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Guardar Hábito"
-                android:backgroundTint="@color/design_default_color_primary"
+                android:backgroundTint="@color/primary"
                 android:textColor="@android:color/white"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp" />

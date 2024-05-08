@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FirstFragment">
@@ -11,22 +12,18 @@
         android:layout_height="match_parent"
         android:padding="16dp">
 
-
         <TextView
             android:id="@+id/card_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="recycled view"
+            android:text="Selecciona una fecha"
             app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="16dp"
-            tools:ignore="MissingConstraints">
-
-        </TextView>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.prolificinteractive.materialcalendarview.MaterialCalendarView
             android:id="@+id/calendarView"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:mcv_showOtherDates="none"
             app:mcv_calendarMode="week"
@@ -35,19 +32,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycledView"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="20dp"
-            app:layout_constraintBaseline_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_textView"/>
-
-
+            app:layout_constraintTop_toBottomOf="@+id/calendarView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -50,6 +50,8 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:21.0.0")
     implementation("androidx.activity:activity:1.8.0")
     implementation("androidx.cardview:cardview:1.0.0")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation("androidx.media3:media3-common:1.3.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -60,5 +62,7 @@ dependencies {
 
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation ("com.github.prolificinteractive:material-calendarview:2.0.1")
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
 
 }
