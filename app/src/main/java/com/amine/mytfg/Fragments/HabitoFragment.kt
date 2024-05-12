@@ -1,3 +1,6 @@
+package com.amine.mytfg.Fragments
+
+import HabitoRepository
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -6,20 +9,20 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.amine.mytfg.CustomAdapter
-import com.amine.mytfg.databases.Tarea
-import com.amine.mytfg.databinding.FragmentFirstBinding
+import com.amine.mytfg.Adapters.CustomAdapterHabitos
+import com.amine.mytfg.databases.Habito
+import com.amine.mytfg.databinding.FragmentHabitosBinding
 import java.util.Calendar
 import java.util.Date
 
-class FirstFragment : Fragment() {
+class HabitoFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
+    private var _binding: FragmentHabitosBinding? = null
     private val binding get() = _binding!!
     private var selectedDate: Date = Calendar.getInstance().time // Variable para mantener la fecha seleccionada
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        _binding = FragmentHabitosBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -46,12 +49,13 @@ class FirstFragment : Fragment() {
 
     private fun setupRecyclerView() {
         binding.recycledView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recycledView.adapter = CustomAdapter(mutableListOf(), requireContext(), this::handleItemUpdate)
+        binding.recycledView.adapter = CustomAdapterHabitos(mutableListOf(), requireContext(),
+            { habito: Habito, isCompleted: Boolean -> handleItemUpdate(habito, isCompleted) })
     }
 
 
 
-    private fun handleItemUpdate(tarea: Tarea, isCompleted: Boolean) {
+    private fun handleItemUpdate(habito: Habito, isCompleted: Boolean) {
         // Aquí puedes manejar lo que sucede cuando un hábito se marca como completado o no
         // Por ejemplo, podrías mostrar un Toast o actualizar alguna interfaz
     }
@@ -62,7 +66,7 @@ class FirstFragment : Fragment() {
         repo.obtenerHabitosPorFecha(date,
             onSuccess = { habitos ->
                 Log.d("Habitos", "Hábitos cargados: ${habitos.size}")
-                (binding.recycledView.adapter as CustomAdapter).updateData(habitos)
+                (binding.recycledView.adapter as CustomAdapterHabitos).updateData(habitos)
                 binding.swipeRefreshLayout.isRefreshing = false
             },
             onFailure = { exception ->

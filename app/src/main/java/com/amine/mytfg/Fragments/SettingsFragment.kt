@@ -1,4 +1,4 @@
-package com.amine.mytfg
+package com.amine.mytfg.Fragments
 
 import android.annotation.SuppressLint
 import android.app.AppOpsManager
@@ -16,6 +16,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.amine.mytfg.R
 
 class SettingsFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView

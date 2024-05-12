@@ -1,3 +1,6 @@
+package com.amine.mytfg.Fragments
+
+import HabitoRepository
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater

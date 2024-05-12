@@ -1,13 +1,13 @@
 package com.amine.mytfg.InicioSesion
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.amine.mytfg.R
 import com.amine.mytfg.activityPrincipal
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -33,8 +33,6 @@ class InicioSesionActivity : AppCompatActivity() {
         val textViewLogin = findViewById<TextView>(R.id.textViewLogin)
         textViewLogin.isClickable = false
         auth = Firebase.auth
-
-
 
 
         // Configuración de Google SignIn
@@ -109,7 +107,7 @@ class InicioSesionActivity : AppCompatActivity() {
                 val account = task.getResult(ApiException::class.java)
                 firebaseAuthWithGoogle(account.idToken!!)
             } catch (e: ApiException) {
-                Log.w("GoogleSignIn", "Google sign in failed", e)
+                Log.w("GoogleSignIn", "El inicio de sesion con google ha fallado", e)
             }
         }
     }
@@ -119,17 +117,16 @@ class InicioSesionActivity : AppCompatActivity() {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
-                Log.d("FirebaseAuth", "signInWithCredential:success")
-                val intent = Intent(this, activityPrincipal::class.java) // Asegúrate de cambiar 'checkCampos' por tu actividad destino.
+                Log.d("FirebaseAuth", "inicio de sesion con google success")
+                val intent = Intent(this, activityPrincipal::class.java)
                 startActivity(intent)
                 finish()
             } else {
-                Log.w("FirebaseAuth", "signInWithCredential:failure", task.exception)
+                Log.w("FirebaseAuth", "Autenticación fallida", task.exception)
                 Toast.makeText(this, "Autenticación fallida.", Toast.LENGTH_SHORT).show()
             }
         }
     }
-
 
     fun RegistroActivity(view: View) {
 

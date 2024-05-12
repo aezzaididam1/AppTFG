@@ -3,15 +3,15 @@
     <item
         android:id="@+id/inicio_item"
         android:icon="@drawable/i_task"
-        android:title="Tareas" />
+        android:title="Habitos" />
     <item
         android:id="@+id/desafios_item"
         android:icon="@drawable/ig_challenge"
-        android:title="Desafios" />
+        android:title="Tareas" />
     <item
         android:id="@+id/productividad_item"
         android:icon="@drawable/ic_estadistica"
-        android:title="Productividad" />
+        android:title="Estadistica" />
     <item
         android:id="@+id/ajustes_item"
         android:icon="@drawable/ic_app_settings_alt_24"

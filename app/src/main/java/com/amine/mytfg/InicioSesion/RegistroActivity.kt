@@ -1,11 +1,11 @@
 package com.amine.mytfg.InicioSesion
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.amine.mytfg.R
 import com.amine.mytfg.activityPrincipal
 import com.google.firebase.auth.FirebaseAuth
@@ -27,7 +27,7 @@ class RegistroActivity : AppCompatActivity() {
 
     fun botonCrearCuenta(view: View) {
 
-        // 1. Obtener los valores ingresados en los campos de correo y contraseña
+        //1. Obtener los valores ingresados en los campos de correo y contraseña
         val emailTextView = findViewById<TextView>(R.id.edt_email_registro)
         val contraseñaTextView = findViewById<TextView>(R.id.edt_contraseña_registro1)
         val email = emailTextView.text.toString()
@@ -61,11 +61,7 @@ class RegistroActivity : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(email, contraseña)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Registro exitoso, puedes dirigir al usuario a la pantalla principal
-                    // o realizar otras acciones necesarias, como guardar información adicional en Firestore/Realtime Database
                     Toast.makeText(this, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show()
-
-                    // Opcional: Redirigir al usuario a otra Activity tras el registro exitoso
                     val intent = Intent(this, activityPrincipal::class.java)
                     startActivity(intent)
                     finish() // Finaliza la actividad actual

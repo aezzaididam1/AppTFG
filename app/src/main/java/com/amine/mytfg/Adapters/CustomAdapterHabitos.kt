@@ -1,4 +1,4 @@
-package com.amine.mytfg
+package com.amine.mytfg.Adapters
 
 import HabitoRepository
 import android.content.Context
@@ -10,20 +10,21 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.amine.mytfg.databases.Tarea
+import com.amine.mytfg.R
+import com.amine.mytfg.databases.Habito
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class CustomAdapter(
-    private var tasks: MutableList<Tarea>,
+class CustomAdapterHabitos(
+    private var tasks: MutableList<Habito>,
     private val context: Context,  // Usamos el contexto proporcionado
-    private val onItemUpdated: (Tarea, Boolean) -> Unit
-) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+    private val onItemUpdated: (Habito, Boolean) -> Unit
+) : RecyclerView.Adapter<CustomAdapterHabitos.ViewHolder>() {
     private val habitoRepository = HabitoRepository(context)  // Usar el contexto del adaptador
     private val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.card_layout, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.card_habito, parent, false)
         return ViewHolder(view)
     }
 
@@ -54,7 +55,7 @@ class CustomAdapter(
 
     override fun getItemCount() = tasks.size
 
-    fun updateData(newTasks: List<Tarea>) {
+    fun updateData(newTasks: List<Habito>) {
         tasks.clear()
         tasks.addAll(newTasks)
         notifyDataSetChanged()

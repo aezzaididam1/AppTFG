@@ -1,97 +1,75 @@
 
-import android.content.Context
 import android.util.Log
-import android.widget.Toast
-import com.amine.mytfg.databases.Tarea
+import com.amine.mytfg.databases.Task
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
-import java.util.Calendar
-import java.util.Date
 
-class HabitoRepository(val context: Context) {
+class TaskRepository {
+
     private val db = FirebaseFirestore.getInstance()
 
-    fun guardarHabito(nombreHabito: String, fechaInicial: Date, fechaFinal: Date?, diasActivos: List<Boolean>,
-                      onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
-        val habito = hashMapOf(
-            "nombre" to nombreHabito,
-            "fechaInicial" to fechaInicial,
-            "fechaFinal" to fechaFinal,
-            "diasActivos" to diasActivos,
-            "isCompleted" to false  // Asumiendo que agregas este campo por defecto
-        )
-
-        db.collection("habitos")
-            .add(habito)
-            .addOnSuccessListener { documentReference ->
-                Toast.makeText(context, "Hábito guardado con éxito con ID: ${documentReference.id}", Toast.LENGTH_SHORT).show()
-                onSuccess(documentReference.id)  // Devuelve el ID del nuevo documento creado
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(context, "Error al guardar el hábito: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
-                onFailure(e)
-            }
-    }
-
-
-    fun obtenerHabitosPorFecha(date: Date, onSuccess: (List<Tarea>) -> Unit, onFailure: (Exception) -> Unit) {
-        db.collection("habitos").get()
-            .addOnSuccessListener { result ->
-                val habitosFiltrados = filtrarHabitos(result, date)
-                onSuccess(habitosFiltrados)
-            }
-            .addOnFailureListener { exception ->
-                Log.e("FirestoreError", "Failed to load tasks: ", exception)
-                onFailure(exception)
-            }
-    }
-
-    fun filtrarHabitos(querySnapshot: QuerySnapshot, date: Date): List<Tarea> {
-        val calendar = Calendar.getInstance()
-        calendar.time = date
-        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1  // Asumiendo que 0 es Domingo
-
-        return querySnapshot.documents.mapNotNull { doc ->
-            doc.toObject(Tarea::class.java)?.apply {
-                this.id = doc.id  // Almacena el ID del documento en el objeto Tarea
-            }?.takeIf { tarea ->
-                val isActiveToday = tarea.diasActivos.size > dayOfWeek && tarea.diasActivos[dayOfWeek]
-                val tareaFechaInicial = tarea.fechaInicial ?: Date(Long.MIN_VALUE)
-                val tareaFechaFinal = tarea.fechaFinal ?: Date(Long.MAX_VALUE)
-                isActiveToday && !tareaFechaInicial.after(date) && !tareaFechaFinal.before(date)
-            }
+    fun saveTask(task: Task, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        if (task.id.isNullOrEmpty()) {
+            db.collection("tasks").add(task)
+                .addOnSuccessListener { documentReference ->
+                    Log.d("Firebase", "DocumentSnapshot written with ID: ${documentReference.id}")
+                    onSuccess()
+                }
+                .addOnFailureListener { e ->
+                    Log.w("Firebase", "Error adding document", e)
+                    onFailure(e)
+                }
+        } else {
+            db.collection("tasks").document(task.id!!).set(task)
+                .addOnSuccessListener {
+                    Log.d("Firebase", "Task updated successfully!")
+                    onSuccess()
+                }
+                .addOnFailureListener { e ->
+                    Log.w("Firebase", "Error updating task", e)
+                    onFailure(e)
+                }
         }
     }
 
-
-    fun updateHabitoCompletion(habitoId: String, isCompleted: Boolean, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
-        db.collection("habitos")
-            .document(habitoId)
-            .update("isCompleted", isCompleted)
-            .addOnSuccessListener {
-                Log.d("HabitoRepository", "Hábito actualizado con éxito.")
-                onSuccess()
-            }
-            .addOnFailureListener { e ->
-                Log.e("HabitoRepository", "Error al actualizar el hábito.", e)
-                onFailure(e)
-            }
-    }
-    fun contarHabitosCompletados(onResult: (completados: Int, noCompletados: Int) -> Unit) {
-        db.collection("habitos")
+    fun loadTasksForDate(date: String, onResult: (List<Task>) -> Unit) {
+        db.collection("tasks")
+            .whereEqualTo("date", date)
             .get()
-            .addOnSuccessListener { result ->
-                val total = result.size()
-                val completados = result.documents.count { doc ->
-                    doc.getBoolean("isCompleted") == true
+            .addOnSuccessListener { documents ->
+                val tasks = documents.map { doc ->
+                    Task(
+                        id = doc.id,
+                        title = doc.getString("title") ?: "",
+                        date = doc.getString("date") ?: "",
+                        startTime = doc.getString("startTime") ?: "",
+                        endTime = doc.getString("endTime") ?: "",
+                        notify = doc.getBoolean("notify") ?: false
+                    )
                 }
-                onResult(completados, total - completados)
+                onResult(tasks)
             }
             .addOnFailureListener { exception ->
-                Log.e("FirestoreError", "Error al cargar datos de hábitos", exception)
+                Log.e("TaskRepository", "Error loading tasks for date $date", exception)
             }
     }
 
-
+    fun deleteTask(task: Task, onComplete: (Boolean) -> Unit) {
+        task.id?.let { id ->
+            // Si el ID no es nulo, procede con la eliminación
+            db.collection("tasks").document(id).delete()
+                .addOnSuccessListener {
+                    Log.d("Firebase", "Task borrada")
+                    onComplete(true)
+                }
+                .addOnFailureListener { e ->
+                    Log.e("Firebase", "Error borrando la  task", e)
+                    onComplete(false)
+                }
+        } ?: run {
+            // Si el ID es nulo, loguea un error e
+            Log.e("Firebase", "Error: el ID es null, no se puede borrar")
+            onComplete(false)
+        }
+    }
 
 }

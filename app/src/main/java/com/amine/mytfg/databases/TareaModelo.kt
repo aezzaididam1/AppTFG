@@ -1,12 +1,10 @@
 package com.amine.mytfg.databases
 
-import java.util.Date
-
-data class Tarea(
-    var id: String = "",
-    val nombre: String = "",
-    val fechaInicial: Date? = null,
-    val fechaFinal: Date? = null,    // Puede ser nulo si no se define una fecha de finalización
-    val diasActivos: List<Boolean> = listOf(false, false, false, false, false, false, false),
-    var isCompleted: Boolean = false
+data class Task(
+    var id: String? = null,
+    var title: String = "",
+    var date: String = "",  // uso String para facilitar la manipulación con Firestore
+    var startTime: String = "",
+    var endTime: String = "",
+    val notify: Boolean = false
 )
