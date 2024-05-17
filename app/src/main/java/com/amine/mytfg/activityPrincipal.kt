@@ -11,7 +11,6 @@ import android.app.Dialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -492,14 +491,6 @@ class activityPrincipal : AppCompatActivity() {
         ).show()
     }
 
-    fun openTimePickerDialog(onTimeSelected: (Calendar) -> Unit) {
-        val calendar = Calendar.getInstance()
-        TimePickerDialog(this, { _, hourOfDay, minute ->
-            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
-            calendar.set(Calendar.MINUTE, minute)
-            onTimeSelected(calendar)
-        }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
-    }
 
 
     // Helper function to safely parse dates

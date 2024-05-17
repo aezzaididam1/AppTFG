@@ -56,8 +56,7 @@ class HabitoFragment : Fragment() {
 
 
     private fun handleItemUpdate(habito: Habito, isCompleted: Boolean) {
-        // Aquí puedes manejar lo que sucede cuando un hábito se marca como completado o no
-        // Por ejemplo, podrías mostrar un Toast o actualizar alguna interfaz
+        // Aquí se maneja lo que sucede cuando un hábito se marca como completado o no
     }
     private fun cargarHabitosPorFecha(date: Date) {
         Log.d("Habitos", "Cargando hábitos para la fecha: $date")
@@ -77,9 +76,7 @@ class HabitoFragment : Fragment() {
         )
     }
 
-    private fun handleTaskCompletion(position: Int, isChecked: Boolean) {
-        // Implementa lógica para manejar la finalización de tareas
-    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -58,18 +58,18 @@ class TareaFragment : Fragment() {
         binding.tasksRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = taskAdapter
-            setNestedScrollingEnabled(false) // Mejorar el rendimiento dentro de NestedScrollView
+            setNestedScrollingEnabled(false)
         }
     }
 
     private fun showDeleteDialog(task: Task) {
         AlertDialog.Builder(requireContext())
-            .setTitle("Delete Task")
-            .setMessage("Are you sure you want to delete this task?")
-            .setPositiveButton("Delete") { dialog, which ->
+            .setTitle("Borrar Task")
+            .setMessage("Estas seguro que quieres borrar esta tarea?")
+            .setPositiveButton("borrar") { dialog, which ->
                 deleteTask(task)
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton("Cancelar", null)
             .show()
     }
 
@@ -78,10 +78,10 @@ class TareaFragment : Fragment() {
             if (isSuccess) {
                 val formattedDate = dateFormat.format(Calendar.getInstance().time)
                 loadTasksForSelectedDate(formattedDate)  // Reload tasks
-                Toast.makeText(context, "Task deleted successfully", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Task borrada correctamente", Toast.LENGTH_SHORT).show()
                 loadTasksForSelectedDate(formattedDate  )
             } else {
-                Toast.makeText(context, "Failed to delete task", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "fallo al borrar la task ", Toast.LENGTH_SHORT).show()
             }
         }
     }
