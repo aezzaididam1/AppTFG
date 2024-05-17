@@ -1,4 +1,4 @@
-package com.amine.mytfg.Services  // Asegúrate de usar tu propio paquete
+package com.amine.mytfg.Services
 
 import android.Manifest
 import android.content.BroadcastReceiver
@@ -13,9 +13,8 @@ import com.amine.mytfg.R
 
 class ReminderBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        val taskTitle = intent.getStringExtra("taskTitle") ?: "Tarea sin título"
+        val taskTitle = intent.getStringExtra("taskTitle") ?: "Tiene una tarea pendiente"
         val taskTime = intent.getStringExtra("taskTime") ?: "Hora no definida"
-        Log.d("ReminderBroadcastReceiver", "Intent , preparing notification.")
         Log.d("ReminderBroadcastReceiver", "Received: taskTitle=$taskTitle, taskTime=$taskTime")
 
         val notificationManager = NotificationManagerCompat.from(context)
@@ -28,8 +27,9 @@ class ReminderBroadcastReceiver : BroadcastReceiver() {
 
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
             notificationManager.notify(taskTitle.hashCode(), builder.build())
-            Log.d("ReminderBroadcastReceiver", "Intent recibido, preparando notification.")
-
+            Log.d("ReminderBroadcastReceiver", "Notification sent for taskTitle=$taskTitle")
+        } else {
+            Log.e("ReminderBroadcastReceiver", "Permission not granted for POST_NOTIFICATIONS")
         }
     }
 

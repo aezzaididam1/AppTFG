@@ -24,7 +24,7 @@
                 android:id="@+id/etTaskName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nombre del hábito"
+                android:hint="Nombre de la tarea"
                 android:inputType="textCapWords" />
 
             <TextView
@@ -32,13 +32,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Fecha"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:backgroundTint="?attr/colorPrimary"/>
 
             <Button
                 android:id="@+id/btnSetTaskDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Establecer Fecha" />
+                android:text="Establecer Fecha"
+
+                android:textColorHighlight="#6ABDA6"
+                android:textColorLink="#6ABDA6"
+                app:rippleColor="#6ABDA6"
+                app:strokeColor="#6ABDA6" />
 
             <TimePicker
                 android:id="@+id/timePickerStart"
@@ -77,9 +83,10 @@
                 android:id="@+id/btnSaveTask"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Guardar Tarea"
                 android:background="@color/primary"
-                android:textColor="@android:color/white" />
+                android:text="Guardar Tarea"
+                android:textColor="@android:color/white"
+                />
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

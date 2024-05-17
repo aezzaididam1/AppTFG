@@ -414,20 +414,16 @@ class activityPrincipal : AppCompatActivity() {
     }
 
     fun programarNotificacion(context: Context, task: Task) {
-        Log.d("programarNotificacion", " notification para tarea: ${task.title}")
 
         val taskDate = parseDate(task) ?: return
         val notificationTime = Calendar.getInstance().apply {
             time = taskDate
-            add(Calendar.HOUR, -1)  // Notificación programada para una hora antes
+            add(Calendar.HOUR, -1)  // Notificar una hora antes de la tarea
         }
 
-        // Aquí se muestra el log con la hora exacta de la alarma programada
-        Log.d("programarNotificacion", "Alarm puesta para: ${notificationTime.time}")
-
         val intent = Intent(context, ReminderBroadcastReceiver::class.java).apply {
-            putExtra("titulo tarea", task.title)
-            putExtra("hora tarea", task.startTime)
+            putExtra("taskTitle", task.title)
+            putExtra("taskTime", task.startTime)
         }
         val requestCode = task.title.hashCode()
         val pendingIntent = PendingIntent.getBroadcast(
@@ -437,29 +433,18 @@ class activityPrincipal : AppCompatActivity() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             if (alarmManager.canScheduleExactAlarms()) {
-                alarmManager.setExact(
-                    AlarmManager.RTC_WAKEUP,
-                    notificationTime.timeInMillis,
-                    pendingIntent
-                )
-                Log.d("programarNotificacion", "alarma programada con exito")
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, notificationTime.timeInMillis, pendingIntent)
             } else {
-                Log.e("AlarmManager", "permisos no concedidos")
-                // Considerar alternativas como notificaciones inexactas
+                Log.e("AlarmManager", "permisos no concendidos")
             }
         } else {
-            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            alarmManager.setExact(
-                AlarmManager.RTC_WAKEUP,
-                notificationTime.timeInMillis,
-                pendingIntent
-            )
-            Log.d("programarNotificacion", "otra version.")
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, notificationTime.timeInMillis, pendingIntent)
         }
     }
+
 
 
     fun parseDate(task: Task): Date? {
@@ -468,7 +453,7 @@ class activityPrincipal : AppCompatActivity() {
         return try {
             format.parse(dateTimeString)
         } catch (e: ParseException) {
-            Log.e("ParseDate", "Failed to parse date: $dateTimeString", e)
+            Log.e("ParseDate", "fallo al parse date: $dateTimeString", e)
             null
         }
     }

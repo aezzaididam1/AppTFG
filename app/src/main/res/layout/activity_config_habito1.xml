@@ -21,7 +21,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
             android:orientation="vertical"
             android:padding="16dp"
             android:background="@color/dark_grey">
@@ -181,7 +180,7 @@
                 android:backgroundTint="@color/primary"
                 android:textColor="@android:color/white"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="0dp" />
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

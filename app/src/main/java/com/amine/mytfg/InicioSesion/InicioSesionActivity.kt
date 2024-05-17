@@ -9,31 +9,25 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.amine.mytfg.R
-import com.amine.mytfg.activityPrincipal
+import com.amine.mytfg.SplashActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.auth
 
 class InicioSesionActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
-
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.inicio_sesion_view)
         val textViewLogin = findViewById<TextView>(R.id.textViewLogin)
         textViewLogin.isClickable = false
-        auth = Firebase.auth
-
+        auth = FirebaseAuth.getInstance()
 
         // Configuración de Google SignIn
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -43,10 +37,10 @@ class InicioSesionActivity : AppCompatActivity() {
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
     }
+
     companion object {
         private const val RC_SIGN_IN = 9001
     }
-
 
     fun IniciarSesion(view: View) {
         val email = findViewById<EditText>(R.id.edt_email).text.toString().trim()
@@ -69,10 +63,9 @@ class InicioSesionActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Log.d("SignIn", "signInWithEmail:success")
-                    startActivity(Intent(this, activityPrincipal::class.java))
+                    startActivity(Intent(this, SplashActivity::class.java))
                     finish()
                 } else {
-                    // Manera simplificada de manejar el error
                     task.exception?.let {
                         val message = when (it) {
                             is FirebaseAuthException -> when (it.errorCode) {
@@ -81,7 +74,6 @@ class InicioSesionActivity : AppCompatActivity() {
                                 "ERROR_USER_NOT_FOUND" -> "Usuario no encontrado."
                                 else -> "Error de autenticación."
                             }
-
                             else -> "Error de autenticación."
                         }
                         Toast.makeText(baseContext, message, Toast.LENGTH_SHORT).show()
@@ -90,24 +82,22 @@ class InicioSesionActivity : AppCompatActivity() {
             }
     }
 
-    // método para el inicio de sesión con Google
+    // Método para el inicio de sesión con Google
     fun signInWithGoogle(view: View) {
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
     // Método para manejar el resultado del inicio de sesión con Google
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 val account = task.getResult(ApiException::class.java)
                 firebaseAuthWithGoogle(account.idToken!!)
             } catch (e: ApiException) {
-                Log.w("GoogleSignIn", "El inicio de sesion con google ha fallado", e)
+                Log.w("GoogleSignIn", "El inicio de sesión con Google ha fallado", e)
             }
         }
     }
@@ -117,9 +107,8 @@ class InicioSesionActivity : AppCompatActivity() {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
-                Log.d("FirebaseAuth", "inicio de sesion con google success")
-                val intent = Intent(this, activityPrincipal::class.java)
-                startActivity(intent)
+                Log.d("FirebaseAuth", "Inicio de sesión con Google: éxito")
+                startActivity(Intent(this, SplashActivity::class.java))
                 finish()
             } else {
                 Log.w("FirebaseAuth", "Autenticación fallida", task.exception)
@@ -129,11 +118,7 @@ class InicioSesionActivity : AppCompatActivity() {
     }
 
     fun RegistroActivity(view: View) {
-
         val intent = Intent(this, RegistroActivity::class.java)
         startActivity(intent)
-
     }
-
-
 }

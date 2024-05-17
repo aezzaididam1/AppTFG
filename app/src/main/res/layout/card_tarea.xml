@@ -67,7 +67,7 @@
             android:id="@+id/deleteButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_lock"
+            android:src="@drawable/baseline_auto_delete_24"
             android:background="?attr/selectableItemBackground"
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
